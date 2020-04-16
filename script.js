@@ -5,18 +5,22 @@ const td = document.querySelectorAll('td');
 const tableA = document.querySelector('.tableOfMatrixA');
 const vertexValue = document.querySelector('.vertexInput');
 const nameOfMatrixA = document.querySelector('.nameOfMatrixA');
-const lines = document.querySelector('.lines');
+const exBtn1 = document.querySelector('.ex1');
+const exBtn2 = document.querySelector('.ex2');
 
-const tableB = document.querySelector('.tableOfMatrixB');
-const nameOfMatrixB = document.querySelector('.nameOfMatrixB');
+exBtn1.addEventListener('click', fill1);
+exBtn2.addEventListener('click', fill2);
 
-// btnCreate.addEventListener('click', getValue);
-// dataEntry.addEventListener('click', deleteBlock);
-// vertexValue.value = 10;
-outMatrix();
+btnCreate.addEventListener('click', getValue);
+dataEntry.addEventListener('click', deleteBlock);
 
 function getValue() {
     const valueOfInput = vertexValue.value;
+
+    document.querySelector('.container').innerHTML = '';
+    document.querySelector('.nameOfMatrixA').style.display = 'none';
+    document.querySelector('.tableOfMatrixA').innerHTML = '';
+
     if (!valueOfInput) {
         alert('Поле пустое');
         return;
@@ -43,13 +47,10 @@ function deleteBlock(e) {
     }
 }
 
-function outMatrix() {
-    // let valueOfInput = Number(vertexValue.value);
-    let valueOfInput = 8;
+function fill1() {
+    let valueOfInput = 10;
+    document.querySelector('.vertexInput').value = valueOfInput;
 
-    // console.log("valueOfInputvalueOfInputvalueOfInput1", typeof valueOfInput);
-    // valueOfInput = 10;
-    // console.log("valueOfInputvalueOfInputvalueOfInput2", typeof valueOfInput); return;
     if (!valueOfInput) {
         alert('Поле пустое');
         return;
@@ -68,16 +69,41 @@ function outMatrix() {
     }
     btnOutMatrix.style.display = 'block';
 
-    // document.querySelectorAll('.inputOfNumbers')[0].value = '2 5 6';
-    // document.querySelectorAll('.inputOfNumbers')[1].value = '1';
-    // document.querySelectorAll('.inputOfNumbers')[2].value = '2 4 5';
-    // document.querySelectorAll('.inputOfNumbers')[3].value = '9';
-    // document.querySelectorAll('.inputOfNumbers')[4].value = '1 7';
-    // document.querySelectorAll('.inputOfNumbers')[5].value = '5 8 10';
-    // document.querySelectorAll('.inputOfNumbers')[6].value = '4';
-    // document.querySelectorAll('.inputOfNumbers')[7].value = '7 10';
-    // document.querySelectorAll('.inputOfNumbers')[8].value = '7';
-    // document.querySelectorAll('.inputOfNumbers')[9].value = '8';
+    document.querySelectorAll('.inputOfNumbers')[0].value = '2 5 6';
+    document.querySelectorAll('.inputOfNumbers')[1].value = '1';
+    document.querySelectorAll('.inputOfNumbers')[2].value = '2 4 5';
+    document.querySelectorAll('.inputOfNumbers')[3].value = '9';
+    document.querySelectorAll('.inputOfNumbers')[4].value = '1 7';
+    document.querySelectorAll('.inputOfNumbers')[5].value = '5 8 10';
+    document.querySelectorAll('.inputOfNumbers')[6].value = '4';
+    document.querySelectorAll('.inputOfNumbers')[7].value = '7 10';
+    document.querySelectorAll('.inputOfNumbers')[8].value = '7';
+    document.querySelectorAll('.inputOfNumbers')[9].value = '8';
+
+    outMatrix(valueOfInput);
+}
+
+function fill2() {
+    let valueOfInput = 8;
+    document.querySelector('.vertexInput').value = valueOfInput;
+
+    if (!valueOfInput) {
+        alert('Поле пустое');
+        return;
+    }
+    dataEntry.textContent = '';
+    for (let i = valueOfInput; i > 0; i--) {
+        dataEntry.insertAdjacentHTML('afterbegin', 
+        `
+        <div class="first"> 
+            <div>G<sup>+</sup>(${i}) = </div>
+            <input type="text" class="inputOfNumbers">
+            <button class="btnDeleteVertex">Удалить</button>
+        </div>
+        `
+        )
+    }
+    btnOutMatrix.style.display = 'block';
 
     document.querySelectorAll('.inputOfNumbers')[0].value = '2 7';
     document.querySelectorAll('.inputOfNumbers')[1].value = '6';
@@ -87,7 +113,16 @@ function outMatrix() {
     document.querySelectorAll('.inputOfNumbers')[5].value = '7';
     document.querySelectorAll('.inputOfNumbers')[6].value = '';
     document.querySelectorAll('.inputOfNumbers')[7].value = '7';
+    
+    outMatrix(valueOfInput);
+}
 
+function outMatrix(valueOfInput) {
+    if (valueOfInput != 8 && valueOfInput != 10) {
+        valueOfInput = Number(vertexValue.value);
+    }
+
+    document.querySelector('.container').innerHTML = '';
 
     let dataOfInputs = Array.from(document.querySelectorAll('.inputOfNumbers'), el => el.value);
     let arr = [];
@@ -104,7 +139,7 @@ function outMatrix() {
         c.push([]);
     }
 
-    for (let i = 0; i < arr.length; i++){ // преобразование множества G+ в G-
+    for (let i = 0; i < arr.length; i++){
         for (let j = 0; j < arr[i].length; j++){
             for (let k = 0; k < arr.length; k++){
                 if (arr[i][j] - 1 == k){
@@ -122,7 +157,7 @@ function outMatrix() {
         }
     }
 
-    for (let i = 0; i < c.length; i++){ //преобразование множества G- в матрицу смежности
+    for (let i = 0; i < c.length; i++){
         for (let j = 0; j < c[i].length +1 ; j++){
             for (let k = 0; k < Gm.length +1; k++){
                 if (c[i][j] == k){
@@ -166,98 +201,55 @@ function outMatrix() {
 
     mas = mas.map((_, i, a) => a.slice(i * valueOfInput, i * valueOfInput + valueOfInput)).filter((el) => el.length);
 
-    // mas это матрица смежности из g+ для получения R
-    // Gm это матрица смежности из g- для получения Q
-
-    // console.log(mas);
-    // console.log(arr);
-
     let R1, Q1, G1, arrAll = [];
-    let R3, Q3, G3;
-    let R4, Q4, G4;
-    let R8, Q8, G8;
-    let next1, next2, next3;
+    let next;
     let varForNext = [];
 
     for (let i = 0; i < 5; i++) {
 
     }
 
-    R1 = division(mas); // находим R1
-    Q1 = division(Gm); // находим Q1
+    R1 = division(mas);
+    Q1 = division(Gm);
 
-    // Q = getNextR(divisionForRest(Gm, next1).flat(), arrAll.flat()); // находим Q3
+    R1 = R1.flat();
+    Q1 = Q1.flat();
 
-    R1 = R1.flat(); // поднимаем все массивы на один уровень в R1
-    Q1 = Q1.flat(); // поднимаем все массивы на один уровень в Q1
-
-    // Убираем одинаковые (баг)
     Q1 = Q1.filter( (item, pos) => {
         return Q1.indexOf(item) === pos;
     })
 
-    G1 = subgraph(R1, Q1); // находим сильно связанный подграф
-    arrAll.push(G1); // заносим в общий массив
+    G1 = subgraph(R1, Q1);
+    arrAll.push(G1);
     arrAll = arrAll.flat();
 
     varForNext.push(G1)
     varForNext = varForNext.flat();
 
-    next1 = nextSmallNumber(G1); // находим следующую вершину с меньшим номером
-
-    // R3 = getNextR(divisionForRest(mas, next1).flat(), arrAll.flat()); // находим R3
-    // Q3 = divisionForRest(Gm, next1).flat(); // находим Q3
-    // G3 = subgraph(R3, Q3); // находим G3
-    // arrAll.push(G3); // заносим в общий массив
-    // arrAll = arrAll.flat();
-
-    // varForNext.push(G3)
-    // varForNext = varForNext.flat();
-
-    // next2 = nextSmallNumber(varForNext); // находим следующую вершину с меньшим номером
-
-    // R4 = getNextR(divisionForRest(mas, next2).flat(), arrAll.flat()); // находим R3
-    // Q4 = getNextR(divisionForRest(Gm, next2).flat(), arrAll.flat()); // находим Q3
-    // G4 = subgraph(R4, Q4); // находим G3
-    // arrAll.push(G4); // заносим в общий массив
-    // arrAll = arrAll.flat();
-
-    // varForNext.push(G4);
-    // varForNext = varForNext.flat();
-
-    // next3 = nextSmallNumber(varForNext); // находим следующую вершину с меньшим номером
-
-    // R8 = getNextR(divisionForRest(mas, next3).flat(), arrAll.flat()); // находим R3
-    // Q8 = getNextR(divisionForRest(Gm, next3).flat(), arrAll.flat()); // находим Q3
-    // G8 = subgraph(R8, Q8); // находим G3
-    // arrAll.push(G8); // заносим в общий массив
-    // arrAll = arrAll.flat();
+    next = nextSmallNumber(G1);
 
     console.log("R1", R1);
     console.log("Q1", Q1);
     console.log("G1", G1);
-        console.log('\n');
-    console.log("Next1:", next1);
-        console.log('\n');
-    // console.log("R3", R3);
-    // console.log("Q3", Q3);
-    // console.log("G3", G3);
-    //     console.log('\n');
-    // console.log("Next2:", next2);
-    //     console.log('\n');
-    // console.log("R4", R4);
-    // console.log("Q4", Q4);
-    // console.log("G4", G4);
-    //     console.log('\n');
-    // console.log("Next3:", next3);
-    //     console.log('\n');
-    // console.log("R8", R8);
-    // console.log("Q8", Q8);
-    // console.log("G8", G8);
-    //     console.log('\n');
-    // if (arrAll.length === valueOfInput) {
-    //     console.log("Конец!");
-    // }
+
+    document.querySelector('.container').insertAdjacentHTML('beforeend', 
+    `
+    <div class="decomposition">
+        <div class="r">
+            <div class="name">R(1) = </div>
+            <div class="values">( ${R1.join(', ')} )</div>
+        </div>
+        <div class="q">
+            <div class="name">Q(1) = </div>
+            <div class="values">( ${Q1.join(', ')} )</div>
+        </div>
+        <div class="g">
+            <div class="name">G(1) = </div>
+            <div class="values">( ${G1.join(', ')} )</div>
+        </div>
+    </div>
+    `
+    )
 
     let R, Q, G;
     let arrOfG = [];
@@ -265,26 +257,42 @@ function outMatrix() {
 
     for(let i = 0; i < 10; i++) {
         if (arrAll.length === valueOfInput) {
-            console.log("Конец!");
             break;
         }
-        R = getNextR(divisionForRest(mas, next1).flat(), arrAll.flat()); // находим R3
-        Q = getNextR(divisionForRest(Gm, next1).flat(), arrAll.flat()); // находим Q3
-        G = subgraph(R, Q); // находим G3
-        arrAll.push(G); // заносим в общий массив
+        R = getNextR(divisionForRest(mas, next).flat(), arrAll.flat());
+        Q = getNextR(divisionForRest(Gm, next).flat(), arrAll.flat());
+        G = subgraph(R, Q);
+        arrAll.push(G);
         arrAll = arrAll.flat();
 
         varForNext.push(G)
         varForNext = varForNext.flat();
 
-        console.log(`R${next1}`, R);
-        console.log(`Q${next1}`, Q);
-        console.log(`G${next1}`, G);
         console.log('\n');
-        console.log("Next1:", next1);
-        console.log('\n');
+        console.log(`R${next}`, R);
+        console.log(`Q${next}`, Q);
+        console.log(`G${next}`, G);
 
-        next1 = nextSmallNumber(varForNext); // находим следующую вершину с меньшим номером
+        document.querySelector('.container').insertAdjacentHTML('beforeend', 
+        `
+        <div class="decomposition">
+            <div class="r">
+                <div class="name">R(${next}) = </div>
+                <div class="values">( ${R.join(', ')} )</div>
+            </div>
+            <div class="q">
+                <div class="name">Q(${next}) = </div>
+                <div class="values">( ${Q.join(', ')} )</div>
+            </div>
+            <div class="g">
+                <div class="name">G(${next}) = </div>
+                <div class="values">( ${G.join(', ')} )</div>
+            </div>
+        </div>
+        `
+        )
+
+        next = nextSmallNumber(varForNext);
 
         arrOfG.push(G);
     }
@@ -338,12 +346,9 @@ function outMatrix() {
         })
     }
 
-    console.log("newTemp2", newTemp2);
-
     // matrix A
     
     dataOfInputs = Array.from(document.querySelectorAll('.inputOfNumbers'), el => el.value);
-    console.log('dataOfInputs', dataOfInputs);
 
     arr = newTemp2;
 
@@ -361,7 +366,7 @@ function outMatrix() {
                 }
                 tr.appendChild(th);
             }
-            else { // все остальные
+            else {
                 if (c == 0) { // 
                     const th = document.createElement('th');
                     th.textContent = i;
@@ -399,20 +404,19 @@ function subgraph(array1, array2) {
     return array3;
 }
 
-function divisionForRest(Gp, num){//заполнение R, или Q
+function divisionForRest(Gp, num){
     let R = [];
     let sub_R = [];
     sub_R.push(num);
     R.push([num]);
 
     sub_R = [];
-    for (x = 0; x < 20; x++){ //заполняем остальные
+    for (x = 0; x < 20; x++){
         for (let i = 0; i < Gp.length; i++) {
             for (let k = 0; k < Gp[i].length;k++) {
                 for (let j = 0; j < R.length; j++){
                     if (R[j].indexOf(i+1) != -1 && Gp[i][k] != 0 && R.flat().indexOf(k+1) == -1){
                         sub_R.push(k+1);
-                        // console.log(k+1);
                     }
                 }   
             }
@@ -464,12 +468,12 @@ function nextSmallNumber(arr) {
     return arr[arr.length - 1] + 1;
 }
 
-function division(Gp){//заполнение R, или Q
+function division(Gp){
     let R = [];
     let sub_R = [];
     sub_R.push(1);
 
-    for(let i = 0; i < Gp.length; i++){//заполняем первый уровень
+    for(let i = 0; i < Gp.length; i++) {
         for(let k = 0; k < Gp[i].length;k++){
             if(i == 0 ){
                 if(Gp[i][k] != 0){
@@ -480,13 +484,12 @@ function division(Gp){//заполнение R, или Q
     }
     R.push(sub_R);
     sub_R = [];
-    for (x = 0; x < 20; x++){ //заполняем остальные
+    for (x = 0; x < 20; x++) {
         for (let i = 0; i < Gp.length; i++) {
             for (let k = 0; k < Gp[i].length;k++) {
                 for (let j = 0; j < R.length; j++){
                     if (R[j].indexOf(i+1) != -1 && Gp[i][k] != 0 && R.flat().indexOf(k+1) == -1){
                         sub_R.push(k+1);
-                        // console.log(k+1);
                     }
                 }   
             }
